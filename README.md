@@ -22,7 +22,9 @@ This can be reproed with the following docker image:
 
 More fundamentally, the [do-test shell script](./do-test.sh), demonstrates the high-level problem, where a `cp`ed file cannot be copied via `copy_file_range`.
 
-However, this can be refined even further ([see sendfile-repro.c](./sendfile-repro.c)): It appears that after the `sendfile` syscall has been used, `copy_file_range` will return zero when copying from that file to another file.
+However, this can be refined even further ([see sendfile-repro.c](./sendfile-repro.c)): 
+
+> It appears that after the `sendfile` syscall has been used, `copy_file_range` will return zero when copying from that file to another file.
 
 ### Potentially interesting find
 
