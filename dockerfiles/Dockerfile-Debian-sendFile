@@ -1,0 +1,14 @@
+FROM debian:11
+
+RUN apt-get update
+RUN apt-get -y install gcc libc6-dev
+
+COPY do-test.sh do-test.sh
+COPY sendfile-repro.c sendfile-repro.c
+
+RUN gcc sendfile-repro.c -o sendfile-repro
+
+
+CMD ["./sendfile-repro"]
+
+

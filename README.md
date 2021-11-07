@@ -20,8 +20,37 @@ Initially, this error surfaced after a `cp` command was executed on a regular fi
 
 This can be reproed with the following docker image:
 
-More fundamentally, the [do-test shell script](./do-test.sh), demonstrates the high-level problem: 
+More fundamentally, the [do-test shell script](./do-test.sh), demonstrates the high-level problem, where a `cp`ed file cannot be copied via `copy_file_range`.
 
-`docker run dchampz/copy_file_range-test:alpine-312-sendfileRepro`
+However, this can be refined even further ([see sendfile-repro.c](./sendfile-repro.c)): It appears that after the `sendfile` syscall has been used, `copy_file_range` will return zero when copying from that file to another file.
 
-However, this can be refined even further ([see sendfile-repro.c](./sendfile-repro.c)). It appears that after the `sendfile` syscall has been used, `copy_file_range` will return zero when copying from that file to another file.
+### Potentially interesting find
+
+While the repro outlined in [do-test shell script](./do-test.sh) _does_ work in Debian linux, the more targeted example shows the same behavior:
+
+`docker run dchampz/copy_file_range-test:debian-11-sendFile`
+
+```
+    sendfile bytes written: 16
+	sendfile -> copy_file_range bytes written: 0
+	copy_file_range bytes written: 16
+	cfr->cfr bytes written: 16
+```
+
+
+## The following docker images can be used to demonstrate this reproduction:
+
+*note: I could not reproduce this outside of macos*
+
+For the high-level cp example:
+
+* `docker run dchampz/copy_file_range-test:alpine-312`
+
+For the more targeted repro:
+
+* `docker run dchampz/copy_file_range-test:alpine-312-sendfileRepro`
+* `docker run dchampz/copy_file_range-test:debian-11-sendFile`
+
+For examples outside of Alpine that does not exhibit the same behaviour:
+
+* `docker run dchampz/copy_file_range-test:debian-11`
