@@ -20,6 +20,8 @@ Initially, this error surfaced after a `cp` command was executed on a regular fi
 
 This can be reproed with the following docker image:
 
+`docker run dchampz/copy_file_range-test:alpine-312`
+
 More fundamentally, the [do-test shell script](./do-test.sh), demonstrates the high-level problem, where a `cp`ed file cannot be copied via `copy_file_range`.
 
 However, this can be refined even further ([see sendfile-repro.c](./sendfile-repro.c)): 

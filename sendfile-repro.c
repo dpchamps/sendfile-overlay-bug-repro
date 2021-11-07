@@ -48,12 +48,14 @@ int main() {
 
   int og_sf_bw = copy_with_sendfile("test", "test-sf");
   int sf_cfr_bw = copy_with_cfr("test-sf", "test-cfr");
+  int sf_sf_bw = copy_with_cfr("test-sf", "test-sf-sf");
   int og_cfr_bw = copy_with_cfr("test", "test-cfr-og");
   int cfr_cfr_bw = copy_with_cfr("test-cfr-og", "test-cfr-cfr");
   
-  printf("\tsendfile bytes written: %d\n\tsendfile -> copy_file_range bytes written: %d\n\tcopy_file_range bytes written: %d\n\tcfr->cfr bytes written: %d\n", 
+  printf("\tsendfile bytes written: %d\n\tsendfile -> copy_file_range bytes written: %d\n\tsendfile -> sendfile bytes written: %d\n\tcopy_file_range bytes written: %d\n\tcfr->cfr bytes written: %d\n", 
         og_sf_bw, 
         sf_cfr_bw,
+        sf_sf_bw,
         og_cfr_bw,
         cfr_cfr_bw);
 
