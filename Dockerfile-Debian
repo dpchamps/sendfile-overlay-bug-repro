@@ -1,0 +1,13 @@
+FROM debian:11
+
+RUN apt-get update
+RUN apt-get -y install gcc libc6-dev
+
+COPY do-test.sh do-test.sh
+COPY copy-file.c copy-file.c
+
+RUN gcc copy-file.c -o copy-file
+
+
+CMD ["sh", "./do-test.sh"]
+

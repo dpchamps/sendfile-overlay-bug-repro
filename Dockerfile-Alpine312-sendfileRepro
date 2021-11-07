@@ -1,0 +1,12 @@
+FROM alpine:3.12
+
+RUN apk add gcc gcompat musl-dev
+
+COPY do-test.sh do-test.sh
+COPY sendfile-repro.c sendfile-repro.c
+
+RUN gcc sendfile-repro.c -o sendfile-repro
+
+
+CMD ["./sendfile-repro"]
+

@@ -1,0 +1,12 @@
+FROM alpine:3.12
+
+RUN apk add gcc gcompat musl-dev
+
+COPY do-test.sh do-test.sh
+COPY copy-file.c copy-file.c
+
+RUN gcc copy-file.c -o copy-file
+
+
+CMD ["sh", "./do-test.sh"]
+
